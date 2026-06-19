@@ -1,0 +1,76 @@
+# ==========================================================================
+# Health_analysis — privacy-first .gitignore
+# This repo processes highly sensitive health, biometric, and genomic data.
+# NOTHING containing real personal data may ever be committed.
+# Only code, docs, configuration templates, and dummy/sample data belong here.
+# ==========================================================================
+
+# --- Credentials & secrets ---
+.env
+.env.local
+*.env
+token.txt
+*token*.txt
+secrets/
+credentials/
+
+# --- ALL generated/personal data (DB, vision extracts, report images, screenshots) ---
+# Blanket rule — the entire data/ dir holds real personal data and must never ship.
+data/
+output/
+*.sqlite
+*.sqlite3
+*.db
+
+# --- Node / frontend build artifacts ---
+node_modules/
+dist/
+dist-ssr/
+*.tsbuildinfo
+
+# --- Apple Health exports ---
+eksport.xml
+export.xml
+export_cda.xml
+*.xml
+apple_health_export/
+workout-routes/
+data/apple_health/
+!data/apple_health/.gitkeep
+
+# --- Nebula Genomics / whole-genome data (HIGHLY SENSITIVE) ---
+*.vcf
+*.vcf.gz
+*.vcf.gz.tbi
+*.tbi
+*.cram
+*.crai
+*.bam
+*.bai
+*.fastq
+*.fastq.gz
+*.fa
+*.fasta
+DNA_reports/
+data/genomics/
+!data/genomics/.gitkeep
+
+# --- Generated interpretations / reports derived from personal data ---
+reports/personal/
+*.personal.*
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,0 +1,21 @@
+// Design system barrel. Import primitives + tokens from "@/design".
+export * from "./tokens";
+export { cn } from "./cn";
+export { Panel } from "./Panel";
+export type { PanelProps } from "./Panel";
+export { SectionHeader } from "./SectionHeader";
+export type { SectionHeaderProps } from "./SectionHeader";
+export { Badge, StatusBadge } from "./Badge";
+export type { BadgeProps } from "./Badge";
+export { StatRing } from "./StatRing";
+export type { StatRingProps } from "./StatRing";
+export { ConfidenceMeter } from "./ConfidenceMeter";
+export type { ConfidenceMeterProps } from "./ConfidenceMeter";
+export { EvidenceBadge } from "./EvidenceBadge";
+export type { EvidenceBadgeProps } from "./EvidenceBadge";
+export { GlowButton } from "./GlowButton";
+export type { GlowButtonProps } from "./GlowButton";
+export { Sparkline } from "./Sparkline";
+export type { SparklineProps } from "./Sparkline";
+export { TrendIndicator } from "./TrendIndicator";
+export { ProvenanceTag } from "./ProvenanceTag";

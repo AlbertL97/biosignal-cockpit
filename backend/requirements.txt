@@ -1,0 +1,24 @@
+# Web / API
+fastapi>=0.115
+uvicorn[standard]>=0.32
+pydantic>=2.9
+python-dateutil>=2.9
+
+# Data / science
+pandas>=2.2
+numpy>=2.0
+scipy>=1.14
+
+# Ingestion
+lxml>=5.3            # streaming Apple Health XML
+pdfplumber>=0.11     # Nebula report PDFs
+gpxpy>=1.6           # workout routes
+
+# Evidence / research
+biopython>=1.84      # Entrez / PubMed E-utilities
+requests>=2.32
+
+# Dev / test
+pytest>=8.3
+ruff>=0.7
+httpx>=0.27          # FastAPI test client

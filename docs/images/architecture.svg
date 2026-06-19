@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 540" font-family="Segoe UI, Inter, system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a1018"/><stop offset="1" stop-color="#06090f"/>
+    </linearGradient>
+    <marker id="arr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0 0 L7 3 L0 6 Z" fill="#22d3ee"/>
+    </marker>
+    <style>
+      .lbl{fill:#e2e8f0;font-size:14px;font-weight:600}
+      .sub{fill:#94a3b8;font-size:11px}
+      .kick{fill:#22d3ee;font-size:10px;letter-spacing:2px;font-weight:700}
+      .box{fill:#111c2e;stroke:#22d3ee;stroke-opacity:.35;rx:10}
+      .soft{fill:#0e1726;stroke:#334155;stroke-opacity:.6}
+      .flow{stroke:#22d3ee;stroke-width:2;fill:none;opacity:.7}
+    </style>
+  </defs>
+  <rect width="1180" height="540" fill="url(#bg)"/>
+  <text x="40" y="46" fill="#f1f5f9" font-size="22" font-weight="700">Biosignal Cockpit — Architecture</text>
+  <text x="40" y="68" class="sub">Local-first, single-user. Personal-data pipeline (left) runs on your machine; only a synthetic + curated demo is published.</text>
+
+  <!-- Column 1: Sources -->
+  <text x="60" y="110" class="kick">DATA SOURCES</text>
+  <g>
+    <rect class="box soft" x="40" y="120" width="200" height="50" rx="10"/>
+    <text x="56" y="142" class="lbl">Apple Health export</text>
+    <text x="56" y="159" class="sub">eksport.xml · 367k records</text>
+    <rect class="box soft" x="40" y="180" width="200" height="50" rx="10"/>
+    <text x="56" y="202" class="lbl">Genome VCF</text>
+    <text x="56" y="219" class="sub">~4–5M variants (GRCh38)</text>
+    <rect class="box soft" x="40" y="240" width="200" height="50" rx="10"/>
+    <text x="56" y="262" class="lbl">Nebula reports</text>
+    <text x="56" y="279" class="sub">379 image-PDFs → vision OCR</text>
+    <rect class="box soft" x="40" y="300" width="200" height="50" rx="10"/>
+    <text x="56" y="322" class="lbl">PubMed (E-utilities)</text>
+    <text x="56" y="339" class="sub">live literature + grading</text>
+  </g>
+
+  <!-- Column 2: Ingestion + Storage -->
+  <text x="300" y="110" class="kick">INGESTION → STORAGE</text>
+  <rect class="box" x="290" y="120" width="210" height="110" rx="10"/>
+  <text x="306" y="144" class="lbl">Streaming parsers</text>
+  <text x="306" y="164" class="sub">lxml · cyvcf · pdfplumber</text>
+  <text x="306" y="182" class="sub">vision agents (image PDFs)</text>
+  <text x="306" y="200" class="sub">unit + timestamp harmonise</text>
+  <text x="306" y="218" class="sub">audit log on every import</text>
+  <rect class="box" x="290" y="244" width="210" height="106" rx="10"/>
+  <text x="306" y="268" class="lbl">SQLite (separated)</text>
+  <text x="306" y="288" class="sub">raw · derived · interpretation</text>
+  <text x="306" y="306" class="sub">· evidence · genome · audit</text>
+  <text x="306" y="330" class="sub">no real data leaves the disk</text>
+
+  <!-- Column 3: Processing + Interpretation -->
+  <text x="560" y="110" class="kick">PROCESSING → INTERPRETATION</text>
+  <rect class="box" x="550" y="120" width="230" height="92" rx="10"/>
+  <text x="566" y="144" class="lbl">Personal baselines</text>
+  <text x="566" y="164" class="sub">within-person, per-signal</text>
+  <text x="566" y="182" class="sub">rolling means · z-scores</text>
+  <text x="566" y="200" class="sub">trends · data-quality flags</text>
+  <rect class="box" x="550" y="226" width="230" height="124" rx="10"/>
+  <text x="566" y="250" class="lbl">Interpretation engine</text>
+  <text x="566" y="270" class="sub">9 body-system domains</text>
+  <text x="566" y="288" class="sub">measured/derived/inferred/</text>
+  <text x="566" y="304" class="sub">hypothesis/recommendation</text>
+  <text x="566" y="322" class="sub">confidence + evidence grade</text>
+  <text x="566" y="340" class="sub">safety filter (no diagnosis)</text>
+
+  <!-- Column 4: API -->
+  <text x="840" y="110" class="kick">API</text>
+  <rect class="box" x="830" y="120" width="150" height="230" rx="10"/>
+  <text x="846" y="144" class="lbl">FastAPI</text>
+  <text x="846" y="168" class="sub">/profile</text>
+  <text x="846" y="188" class="sub">/domains</text>
+  <text x="846" y="208" class="sub">/domains/{id}</text>
+  <text x="846" y="228" class="sub">/metrics/{m}</text>
+  <text x="846" y="248" class="sub">/genome/traits</text>
+  <text x="846" y="268" class="sub">/evidence</text>
+  <text x="846" y="300" class="sub">Pydantic-typed,</text>
+  <text x="846" y="316" class="sub">mirrored in TS</text>
+
+  <!-- Column 5: Frontend -->
+  <text x="1010" y="110" class="kick">COCKPIT UI</text>
+  <rect class="box" x="1000" y="120" width="150" height="230" rx="10"/>
+  <text x="1016" y="144" class="lbl">React + TS</text>
+  <text x="1016" y="168" class="sub">interactive SVG</text>
+  <text x="1016" y="184" class="sub">avatar (organs)</text>
+  <text x="1016" y="208" class="sub">domain cards</text>
+  <text x="1016" y="228" class="sub">trend charts</text>
+  <text x="1016" y="248" class="sub">report: drivers +</text>
+  <text x="1016" y="264" class="sub">evidence levers</text>
+  <text x="1016" y="288" class="sub">genome browser</text>
+  <text x="1016" y="320" class="sub">dark cockpit theme</text>
+
+  <!-- flows -->
+  <path class="flow" d="M240 200 H285" marker-end="url(#arr)"/>
+  <path class="flow" d="M240 265 H285" marker-end="url(#arr)"/>
+  <path class="flow" d="M500 285 H545" marker-end="url(#arr)"/>
+  <path class="flow" d="M780 235 H825" marker-end="url(#arr)"/>
+  <path class="flow" d="M980 235 H995" marker-end="url(#arr)"/>
+  <path class="flow" d="M240 325 C400 420 700 420 700 356" marker-end="url(#arr)"/>
+
+  <!-- demo deploy band -->
+  <rect x="40" y="392" width="1110" height="118" rx="12" fill="#0e1726" stroke="#a78bfa" stroke-opacity=".4"/>
+  <text x="60" y="420" class="kick" fill="#a78bfa">PUBLIC DEMO PATH (this repo)</text>
+  <text x="60" y="446" class="lbl">build_demo_data.py</text>
+  <text x="60" y="464" class="sub">synthetic health + 23 curated</text>
+  <text x="60" y="480" class="sub">NON-sensitive real traits</text>
+  <path class="flow" d="M250 455 H330" marker-end="url(#arr)" stroke="#a78bfa"/>
+  <text x="345" y="446" class="lbl">bundle.json</text>
+  <text x="345" y="464" class="sub">single static file; the app</text>
+  <text x="345" y="480" class="sub">reads it instead of the API</text>
+  <path class="flow" d="M520 455 H600" marker-end="url(#arr)" stroke="#a78bfa"/>
+  <text x="615" y="446" class="lbl">GitHub Actions</text>
+  <text x="615" y="464" class="sub">vite build (demo mode)</text>
+  <text x="615" y="480" class="sub">on every push to main</text>
+  <path class="flow" d="M790 455 H870" marker-end="url(#arr)" stroke="#a78bfa"/>
+  <text x="885" y="446" class="lbl">GitHub Pages</text>
+  <text x="885" y="464" class="sub">live static site, no backend,</text>
+  <text x="885" y="480" class="sub">always on (PC can be off)</text>
+</svg>
