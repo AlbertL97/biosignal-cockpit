@@ -65,23 +65,22 @@ export function Dashboard() {
   if (domainsQuery.isError)
     return <ErrorState error={domainsQuery.error} onRetry={() => domainsQuery.refetch()} />;
 
-  const left = domains.slice(0, Math.ceil(domains.length / 2));
-  const right = domains.slice(Math.ceil(domains.length / 2));
   const selectedStatus = selected
     ? domains.find((d) => d.domain === selected) ?? null
     : null;
 
   return (
-    <div className="mx-auto max-w-[1400px]">
+    <div className="mx-auto max-w-[1500px]">
       <ProfileHeader
         profile={profileQuery.data}
         loading={profileQuery.isLoading}
         domainCount={domains.length}
       />
 
-      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-[1fr_auto_1fr]">
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:order-1">
-          {left.map((d) => (
+      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-[1fr_400px]">
+        {/* All domain cards together on the left */}
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          {domains.map((d) => (
             <DomainCard
               key={d.domain}
               status={d}
@@ -91,8 +90,9 @@ export function Dashboard() {
           ))}
         </div>
 
+        {/* Avatar on the right */}
         <Panel
-          className="order-first grid place-items-center px-6 py-6 lg:order-2 lg:w-[420px]"
+          className="grid place-items-start justify-items-center px-6 py-6 lg:sticky lg:top-4 lg:self-start"
           glow
         >
           <div className="mb-2 text-center">
@@ -111,17 +111,6 @@ export function Dashboard() {
           />
           <Legend />
         </Panel>
-
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:order-3">
-          {right.map((d) => (
-            <DomainCard
-              key={d.domain}
-              status={d}
-              selected={selected === d.domain}
-              onSelect={(id) => setSelected(id)}
-            />
-          ))}
-        </div>
       </div>
 
       {selectedStatus && (
@@ -142,7 +131,7 @@ function ProfileHeader({
   loading: boolean;
   domainCount: number;
 }) {
-  const coverageEntries = profile ? Object.entries(profile.coverage) : [];
+  const highlights = profile?.highlights ?? [];
   return (
     <Panel className="p-4">
       <SectionHeader
@@ -151,19 +140,18 @@ function ProfileHeader({
         trailing={<Badge tone="accent" dot>{domainCount} domains</Badge>}
       />
       <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
+        {/* Only show characteristics that are actually set. */}
         <Fact label="Sex" value={profile?.biological_sex} loading={loading} />
         <Fact label="DOB" value={profile?.dob} loading={loading} />
-        <Fact label="Blood type" value={profile?.blood_type} loading={loading} />
-        <Fact label="Skin type" value={profile?.skin_type} loading={loading} />
       </div>
-      {coverageEntries.length > 0 && (
+      {highlights.length > 0 && (
         <div className="mt-3 border-t border-[var(--hairline)] pt-3">
           <div className="mb-2 text-[11px] uppercase tracking-wider text-slate-500">
-            Data coverage
+            Current signals
           </div>
-          <div className="flex flex-wrap gap-3">
-            {coverageEntries.map(([source, value]) => (
-              <CoveragePill key={source} source={source} value={value} />
+          <div className="flex flex-wrap gap-2.5">
+            {highlights.map((h) => (
+              <HighlightPill key={h.label} label={h.label} value={h.value} detail={h.detail} />
             ))}
           </div>
         </div>
@@ -191,24 +179,22 @@ function Fact({
   );
 }
 
-function CoveragePill({ source, value }: { source: string; value: number }) {
-  // Coverage values may arrive as 0..1 fractions or 0..100 counts; show both
-  // gracefully without implying false precision.
-  const isFraction = value >= 0 && value <= 1;
-  const pct = isFraction ? Math.round(value * 100) : null;
+function HighlightPill({
+  label,
+  value,
+  detail,
+}: {
+  label: string;
+  value: string;
+  detail: string | null;
+}) {
   return (
-    <div className="flex min-w-[120px] flex-col gap-1">
-      <div className="flex items-center justify-between text-xs">
-        <span className="text-slate-300">{source}</span>
-        <span className="tnum text-slate-400">
-          {pct != null ? `${pct}%` : value.toLocaleString()}
-        </span>
-      </div>
-      {pct != null && (
-        <div className="h-1 w-full overflow-hidden rounded-full bg-slate-600/40">
-          <div className="h-full rounded-full bg-cyan" style={{ width: `${pct}%` }} />
-        </div>
-      )}
+    <div
+      className="rounded-md border border-[var(--hairline)] bg-base-800/40 px-3 py-1.5"
+      title={detail ?? undefined}
+    >
+      <div className="text-[10px] uppercase tracking-wider text-slate-500">{label}</div>
+      <div className="tnum text-sm font-semibold text-slate-100">{value}</div>
     </div>
   );
 }

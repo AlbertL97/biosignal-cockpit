@@ -87,6 +87,14 @@ export interface NebulaTrait {
   score: number | null;
   score_label: string | null;
   variants: TraitVariant[];
+  description?: string | null;
+  interpretation?: string | null;
+}
+
+export interface Highlight {
+  label: string;
+  value: string; // preformatted, e.g. "54 bpm"
+  detail: string | null;
 }
 
 export interface Profile {
@@ -95,6 +103,7 @@ export interface Profile {
   blood_type: string | null;
   skin_type: string | null;
   coverage: Record<string, number>;
+  highlights: Highlight[];
 }
 
 // The nine canonical domains in this build.

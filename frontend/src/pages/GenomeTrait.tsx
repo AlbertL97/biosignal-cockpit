@@ -56,6 +56,22 @@ export function GenomeTrait() {
         </div>
       </Panel>
 
+      {(trait.description || trait.interpretation) && (
+        <Panel className="p-5">
+          <SectionHeader kicker="What this means" title="Reading this report" />
+          {trait.description && (
+            <p className="mt-3 text-sm leading-relaxed text-slate-300">
+              {trait.description}
+            </p>
+          )}
+          {trait.interpretation && (
+            <p className="mt-3 text-sm leading-relaxed text-slate-400">
+              {trait.interpretation}
+            </p>
+          )}
+        </Panel>
+      )}
+
       <VariantTable variants={trait.variants} />
 
       <p className="px-1 pb-6 text-xs leading-relaxed text-slate-600">

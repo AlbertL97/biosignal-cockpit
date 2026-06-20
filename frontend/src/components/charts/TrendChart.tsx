@@ -33,7 +33,7 @@ interface ChartPoint {
 }
 
 function formatDate(ms: number): string {
-  return new Date(ms).toLocaleDateString(undefined, {
+  return new Date(ms).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
   });
@@ -175,7 +175,7 @@ function ChartTooltip({
       <div className="mt-0.5 font-semibold text-slate-100">
         {metricLabel}:{" "}
         <span className="tnum text-cyan">
-          {valuePoint.value.toLocaleString()} {unit}
+          {valuePoint.value.toLocaleString("en-US")} {unit}
         </span>
       </div>
     </div>

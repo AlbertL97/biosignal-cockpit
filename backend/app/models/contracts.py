@@ -114,6 +114,16 @@ class NebulaTrait(BaseModel):
     score: float | None = None
     score_label: str | None = None
     variants: list[TraitVariant] = []
+    description: str | None = None     # what this trait/measure is
+    interpretation: str | None = None  # what this percentile means (non-deterministic)
+
+
+class Highlight(BaseModel):
+    """A current, human-readable headline metric (real value + unit)."""
+
+    label: str
+    value: str  # preformatted, e.g. "54 bpm"
+    detail: str | None = None
 
 
 class Profile(BaseModel):
@@ -121,4 +131,5 @@ class Profile(BaseModel):
     biological_sex: str | None = None
     blood_type: str | None = None
     skin_type: str | None = None
-    coverage: dict[str, int] = {}  # metric -> record count
+    coverage: dict[str, int] = {}  # metric -> record count (raw; UI prefers highlights)
+    highlights: list[Highlight] = []  # current key metrics with real values

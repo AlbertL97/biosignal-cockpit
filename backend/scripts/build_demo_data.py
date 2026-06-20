@@ -19,6 +19,8 @@ from pathlib import Path
 from app import config
 from app.interpretation import engine
 from app.interpretation.context import DataContext, _alias
+from app.interpretation.highlights import compute_highlights
+from app.interpretation.trait_explain import describe_trait, interpret_percentile
 from app.processing import baselines, trends
 
 SEED = 42
@@ -278,7 +280,14 @@ def main() -> None:
         ).fetchall()]
         for v in vs:
             v["highlighted"] = bool(v["highlighted"])
-        trait_details[str(t["id"])] = {**t, "variants": vs}
+        trait_details[str(t["id"])] = {
+            **t,
+            "variants": vs,
+            "description": describe_trait(t["trait"]),
+            "interpretation": interpret_percentile(
+                t["trait"], t["percentile"], t["score_label"]
+            ),
+        }
 
     prof = {r["key"]: r["value"] for r in demo.execute("SELECT key,value FROM profile").fetchall()}
     coverage = {r[0]: r[1] for r in demo.execute(
@@ -292,6 +301,7 @@ def main() -> None:
             "dob": prof.get("dob"), "biological_sex": prof.get("biological_sex"),
             "blood_type": prof.get("blood_type"), "skin_type": prof.get("skin_type"),
             "coverage": coverage,
+            "highlights": [json.loads(h.model_dump_json()) for h in compute_highlights(ctx)],
         },
         "domains": [json.loads(d.model_dump_json()) for d in domains],
         "metrics": metrics,

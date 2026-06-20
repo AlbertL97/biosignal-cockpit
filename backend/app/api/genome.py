@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter, HTTPException, Query
 
+from app.interpretation.trait_explain import describe_trait, interpret_percentile
 from app.models.contracts import NebulaTrait, TraitVariant
 from app.storage import db
 
@@ -85,4 +86,8 @@ def get_trait(trait_id: int) -> NebulaTrait:
         score=row["score"],
         score_label=row["score_label"],
         variants=variants,
+        description=describe_trait(row["trait"]),
+        interpretation=interpret_percentile(
+            row["trait"], row["percentile"], row["score_label"]
+        ),
     )
